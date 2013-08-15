@@ -1,0 +1,10 @@
+useDynLib("glinternet")
+export(glinternet, glinternet.cv)
+
+S3method("print", "glinternet")
+S3method("print", "glinternet.cv")
+S3method("plot", "glinternet.cv")
+S3method("predict", "glinternet")
+S3method("predict", "glinternet.cv")
+S3method("coef", "glinternet")
+S3method("coef", "glinternet.cv")

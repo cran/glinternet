@@ -15,6 +15,7 @@ predict.glinternet = function(object, X, type=c("response", "link"), lambda=NULL
   }
   
   stopifnot(type=="link" || type=="response")
+  X = as.matrix(X)
   n = nrow(X)
   pCat = sum(object$numLevels > 1)
   pCont = length(object$numLevels) - pCat

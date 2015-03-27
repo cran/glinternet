@@ -39,6 +39,14 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
     if (nLambda == 1){
       lambda = sort(c(lambda, lambdaMax), decreasing=TRUE)
       nLambda = 2
+    } else if (lambda[1] > lambdaMax) {
+        cat("Info: some lambda values are larger than necessary, modifying ...\n")
+        idx = max(which(lambda >= lambdaMax))
+        if (idx == nLambda) {
+            stop("All lambda values result in zero estimates.")
+        }
+        lambda = c(lambdaMax, lambda[(idx+1):nLambda])
+        nLambda = length(lambda)
     }
   }
   

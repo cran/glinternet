@@ -32,11 +32,8 @@ glinternet.cv = function(X, Y, numLevels, nFolds=10, lambda=NULL, nLambda=50, la
     nLambda = length(lambda)
   }
   
-                                        #create the fold indices
-  indices = sample(n)
-  range = seq(0, n, round(n/nFolds))
-  if (length(range) < nFolds+1) range = c(range, n)
-  else range[nFolds+1] = n
+                                        #create the folds
+  folds = sample(rep(1:nFolds, ceiling(n/nFolds)), n, replace=FALSE)
   
                                         #perform cv
   compute_loss = function(y, yhat, family){
@@ -46,8 +43,8 @@ glinternet.cv = function(X, Y, numLevels, nFolds=10, lambda=NULL, nLambda=50, la
   }
   loss = matrix(0, nFolds, nLambda)
   for (fold in 1:nFolds){
-    testIndex = indices[(range[fold]+1):range[fold+1]]
-    trainIndex = setdiff(indices, testIndex)
+    testIndex = which(folds == fold)
+    trainIndex = which(folds != fold)
     Xtrain = as.matrix(X[trainIndex, ])
     Ytrain = Y[trainIndex]
     Xtest = as.matrix(X[testIndex, ])

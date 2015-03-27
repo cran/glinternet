@@ -7,7 +7,11 @@
 \description{The regularization path is computed along a grid of values
   for the regularization parameter lambda. Can deal with categorical
   variables with arbitrary numbers of levels, continuous variables, and
-  combinations of the two. Accommodates squared error loss and logistic loss.}
+  combinations of the two. Accommodates squared error loss and logistic loss.
+
+  The multicore option requires that the package be compiled with OpenMP support.
+  Examples of compilers that qualify include gcc (>= 4.2) and icc. We also recommend
+  a higher level of optimization, such as -O3 in gcc.}
 \usage{
 glinternet(X, Y, numLevels, lambda = NULL, nLambda = 50, lambdaMinRatio = 0.01,
  screenLimit = NULL, numToFind = NULL, family = c("gaussian","binomial"),

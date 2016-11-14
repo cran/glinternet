@@ -2,16 +2,16 @@ Package: glinternet
 Type: Package
 Title: Learning Interactions via Hierarchical Group-Lasso
         Regularization
-Version: 1.0.0
-Date: 2015-03-27
+Version: 1.0.1
+Date: 2016-11-14
 Author: Michael Lim, Trevor Hastie
 Maintainer: Michael Lim <michael626@gmail.com>
 Depends:
 Suggests: ggplot2
-Description: Group-Lasso INTERaction-NET. Fits linear pairwise-interaction models that satisfy strong hierarchy: if an interaction coefficient is estimated to be nonzero, then its two associated main effects also have nonzero estimated coefficients. Accommodates categorical variables (factors) with arbitrary numbers of levels, continuous variables, and combinations thereof. Implements the machinery described in the paper "Learning interactions via hierarchical group-lasso regularization" (JCGS 2014).
+Description: Group-Lasso INTERaction-NET. Fits linear pairwise-interaction models that satisfy strong hierarchy: if an interaction coefficient is estimated to be nonzero, then its two associated main effects also have nonzero estimated coefficients. Accommodates categorical variables (factors) with arbitrary numbers of levels, continuous variables, and combinations thereof. Implements the machinery described in the paper "Learning interactions via hierarchical group-lasso regularization" (JCGS 2015, Volume 24, Issue 3). Michael Lim & Trevor Hastie (2015) <DOI:10.1080/10618600.2014.938812>.
 License: GPL-2
 URL: http://web.stanford.edu/~hastie/Papers/glinternet_jcgs.pdf
-Packaged: 2015-03-29 00:40:07 UTC; michael
+Packaged: 2016-11-14 07:26:03 UTC; John
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2015-03-30 07:36:32
+Date/Publication: 2016-11-14 11:32:46

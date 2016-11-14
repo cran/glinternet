@@ -414,7 +414,7 @@ int check_convergence(const double *restrict beta, const double *restrict gradie
     offset += size;
   }
   return 1;
-} 
+}
 
 double update_theta(const double *restrict beta, const double *restrict intermediate, const double *restrict intermediateOld, const int gradientLength, const double theta){
   int i;
@@ -479,7 +479,7 @@ void update_intercept(const double *restrict y, const int *restrict nRows, const
     free(temp);
     free(exponent);
   }
-}      
+}
 
 double compute_stepsize(const double *restrict gradient, const double *restrict gradientOld, const double *restrict beta, const double *restrict betaOld, const int gradientLength){
   int i;
@@ -556,29 +556,29 @@ void gl_solver(int *restrict x, double *restrict z, double *restrict y, int *res
 }
 
 SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, SEXP R_beta, SEXP R_residual, SEXP R_linear, SEXP R_numLevels, SEXP R_nVars, SEXP R_catIndices, SEXP R_contIndices, SEXP R_catcatIndices, SEXP R_contcontIndices, SEXP R_catcontIndices, SEXP R_lambda, SEXP R_tol, SEXP R_alpha, SEXP R_maxIter, SEXP R_convergedFlag, SEXP R_objValue, SEXP R_steps, SEXP R_family){
-  PROTECT(R_x = coerceVector(R_x, INTSXP));
-  PROTECT(R_z = coerceVector(R_z, REALSXP));
-  PROTECT(R_y = coerceVector(R_y, REALSXP));
-  PROTECT(R_nRows = coerceVector(R_nRows, INTSXP));
-  PROTECT(R_intercept = coerceVector(R_intercept, REALSXP));
-  PROTECT(R_beta = coerceVector(R_beta, REALSXP));
-  PROTECT(R_residual = coerceVector(R_residual, REALSXP));
-  PROTECT(R_linear = coerceVector(R_linear, REALSXP));
-  PROTECT(R_numLevels = coerceVector(R_numLevels, INTSXP));
-  PROTECT(R_nVars = coerceVector(R_nVars, INTSXP));
-  PROTECT(R_catIndices = coerceVector(R_catIndices, INTSXP));
-  PROTECT(R_contIndices = coerceVector(R_contIndices, INTSXP));
-  PROTECT(R_catcatIndices = coerceVector(R_catcatIndices, INTSXP));
-  PROTECT(R_contcontIndices = coerceVector(R_contcontIndices, INTSXP));
-  PROTECT(R_catcontIndices = coerceVector(R_catcontIndices, INTSXP));
-  PROTECT(R_lambda = coerceVector(R_lambda, REALSXP));
-  PROTECT(R_tol = coerceVector(R_tol, REALSXP));
-  PROTECT(R_alpha = coerceVector(R_alpha, REALSXP));
-  PROTECT(R_maxIter = coerceVector(R_maxIter, INTSXP));
-  PROTECT(R_convergedFlag = coerceVector(R_convergedFlag, INTSXP));
-  PROTECT(R_objValue = coerceVector(R_objValue, REALSXP));
-  PROTECT(R_steps = coerceVector(R_steps, REALSXP));
-  PROTECT(R_family = coerceVector(R_family, INTSXP));
+  PROTECT(R_x = coerceVector(duplicate(R_x), INTSXP));
+  PROTECT(R_z = coerceVector(duplicate(R_z), REALSXP));
+  PROTECT(R_y = coerceVector(duplicate(R_y), REALSXP));
+  PROTECT(R_nRows = coerceVector(duplicate(R_nRows), INTSXP));
+  PROTECT(R_intercept = coerceVector(duplicate(R_intercept), REALSXP));
+  PROTECT(R_beta = coerceVector(duplicate(R_beta), REALSXP));
+  PROTECT(R_residual = coerceVector(duplicate(R_residual), REALSXP));
+  PROTECT(R_linear = coerceVector(duplicate(R_linear), REALSXP));
+  PROTECT(R_numLevels = coerceVector(duplicate(R_numLevels), INTSXP));
+  PROTECT(R_nVars = coerceVector(duplicate(R_nVars), INTSXP));
+  PROTECT(R_catIndices = coerceVector(duplicate(R_catIndices), INTSXP));
+  PROTECT(R_contIndices = coerceVector(duplicate(R_contIndices), INTSXP));
+  PROTECT(R_catcatIndices = coerceVector(duplicate(R_catcatIndices), INTSXP));
+  PROTECT(R_contcontIndices = coerceVector(duplicate(R_contcontIndices), INTSXP));
+  PROTECT(R_catcontIndices = coerceVector(duplicate(R_catcontIndices), INTSXP));
+  PROTECT(R_lambda = coerceVector(duplicate(R_lambda), REALSXP));
+  PROTECT(R_tol = coerceVector(duplicate(R_tol), REALSXP));
+  PROTECT(R_alpha = coerceVector(duplicate(R_alpha), REALSXP));
+  PROTECT(R_maxIter = coerceVector(duplicate(R_maxIter), INTSXP));
+  PROTECT(R_convergedFlag = coerceVector(duplicate(R_convergedFlag), INTSXP));
+  PROTECT(R_objValue = coerceVector(duplicate(R_objValue), REALSXP));
+  PROTECT(R_steps = coerceVector(duplicate(R_steps), REALSXP));
+  PROTECT(R_family = coerceVector(duplicate(R_family), INTSXP));
   int *restrict x = INTEGER(R_x);
   double *restrict z = REAL(R_z);
   double *restrict y = REAL(R_y);

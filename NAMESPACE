@@ -1,6 +1,9 @@
 useDynLib("glinternet")
 export(glinternet, glinternet.cv)
 
+importFrom("graphics", "abline", "axis", "plot", "segments")
+importFrom("stats", "lm", "predict", "sd")
+
 S3method("print", "glinternet")
 S3method("print", "glinternet.cv")
 S3method("plot", "glinternet.cv")

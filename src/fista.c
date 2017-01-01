@@ -561,9 +561,9 @@ SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, S
   PROTECT(R_y = coerceVector(R_y, REALSXP));
   PROTECT(R_nRows = coerceVector(R_nRows, INTSXP));
   PROTECT(R_intercept = coerceVector(R_intercept, REALSXP));
-  SEXP R_interceptCopy = duplicate(R_intercept);
+  SEXP R_interceptCopy = PROTECT(duplicate(R_intercept));
   PROTECT(R_beta = coerceVector(R_beta, REALSXP));
-  SEXP R_betaCopy = duplicate(R_beta);
+  SEXP R_betaCopy = PROTECT(duplicate(R_beta));
   SEXP R_residual = PROTECT(allocVector(REALSXP, asInteger(R_nRows)));
   memset(REAL(R_residual), 0, asInteger(R_nRows)*sizeof(double));
   SEXP R_linear = PROTECT(allocVector(REALSXP, asInteger(R_nRows)));
@@ -610,7 +610,7 @@ SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, S
   double *restrict steps = REAL(R_steps);
   int *restrict family = INTEGER(R_family);
   gl_solver(x, z, y, nRows, intercept, beta, residual, linear, numLevels, nVars, catIndices, contIndices, catcatIndices, contcontIndices, catcontIndices, lambda, tol, alpha, maxIter, convergedFlag, objValue, steps, family);
-  UNPROTECT(23);
+  UNPROTECT(25);
   SEXP result = PROTECT(allocVector(VECSXP, 4));
   SET_VECTOR_ELT(result, 0, R_interceptCopy);
   SET_VECTOR_ELT(result, 1, R_betaCopy);

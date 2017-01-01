@@ -1,9 +1,9 @@
-glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0.01, screenLimit=NULL, numToFind=NULL, family=c("gaussian", "binomial"), tol=1e-5, maxIter=5000, verbose=FALSE, numCores=1){
+glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0.01, interactionCandidates=NULL, screenLimit=NULL, numToFind=NULL, family=c("gaussian", "binomial"), tol=1e-5, maxIter=5000, verbose=FALSE, numCores=1){
 
                                         #get call and family
   thisCall = match.call()
   family = match.arg(family)
-  
+
                                         #make sure inputs are valid
   n = length(Y)
   pCat = sum(numLevels > 1)
@@ -12,23 +12,36 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
   if (family=="binomial" && !all(Y %in% 0:1)) stop("Error:family=binomial but Y not in {0,1}")
 
                                         #separate into categorical and continuous parts
-  if (pCont > 0) Z = as.matrix(apply(as.matrix(X[, numLevels == 1]), 2, standardize))
-  else Z = NULL
+  if (pCont > 0) {
+      contIndices = which(numLevels == 1)
+      continuousCandidates = NULL
+      Z = as.matrix(apply(as.matrix(X[, contIndices]), 2, standardize))
+      if (!is.null(interactionCandidates)) {
+          continuousCandidates = which(contIndices %in% interactionCandidates)
+      }
+  } else {
+      Z = NULL
+      continuousCandidates = NULL
+  }
   if (pCat > 0){
     catIndices = which(numLevels > 1)
+    categoricalCandidates = NULL
     levels = numLevels[catIndices]
     Xcat = as.matrix(X[, catIndices])
-  }
-  else {
+    if (!is.null(interactionCandidates)) {
+        categoricalCandidates = which(catIndices %in% interactionCandidates)
+    }
+  } else {
     levels = NULL
     Xcat = NULL
+    categoricalCandidates = NULL
   }
-  
+
                                         #compute variable norms
   res = Y - mean(Y)
-  candidates = get_candidates(Xcat, Z, res, n, pCat, pCont, levels, screenLimit, numCores=numCores)
- 
- 
+  candidates = get_candidates(Xcat, Z, res, n, pCat, pCont, levels, categoricalCandidates, continuousCandidates, screenLimit, numCores=numCores)
+
+
                                         #lambda grid if not user provided
   if (is.null(lambda)) lambda = get_lambda_grid(candidates, nLambda, lambdaMinRatio)
   else {
@@ -49,7 +62,7 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
         nLambda = length(lambda)
     }
   }
-  
+
                                         #initialize storage for results
   fitted = matrix(mean(Y), n, nLambda)
   activeSet = vector("list", nLambda)
@@ -78,7 +91,7 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
       activeSet[[i]] = check$activeSet
     }
     #update the candidate set if necessary
-    if (!is.null(screenLimit) && (screenLimit<pCat+pCont) && i<nLambda) candidates = get_candidates(Xcat, Z, res, n, pCat, pCont, levels, screenLimit, activeSet[[i]], candidates$norms, numCores)
+    if (!is.null(screenLimit) && (screenLimit<pCat+pCont) && i<nLambda) candidates = get_candidates(Xcat, Z, res, n, pCat, pCont, levels, categoricalCandidates, continuousCandidates, screenLimit, activeSet[[i]], candidates$norms, numCores)
     #get fitted values
     fitted[, i] = Y - res
     #compute total number of interactions found

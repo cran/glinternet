@@ -14,8 +14,9 @@
   a higher level of optimization, such as -O3 in gcc.}
 \usage{
 glinternet(X, Y, numLevels, lambda = NULL, nLambda = 50, lambdaMinRatio = 0.01,
- screenLimit = NULL, numToFind = NULL, family = c("gaussian","binomial"),
-tol = 1e-05, maxIter=5000, verbose=FALSE, numCores = 1)
+ interactionCandidates=NULL, screenLimit = NULL, numToFind = NULL,
+family = c("gaussian","binomial"), tol = 1e-05, maxIter=5000, verbose=FALSE,
+numCores = 1)
 }
 
 \arguments{
@@ -33,7 +34,11 @@ tol = 1e-05, maxIter=5000, verbose=FALSE, numCores = 1)
   \item{nLambda}{The number of \code{lambda} values. Default is 50.}
   \item{lambdaMinRatio}{Smallest value for \code{lambda}, as a fraction of
     \code{lambdaMax}, the (data derived) entry value (i.e. the smallest
-    value for which all coefficients are zero). The default is \code{0.01}.}
+    value for which all coefficients are zero). The default is
+    \code{0.01}.}
+  \item{interactionCandidates}{An optional vector of variable
+    indices. This will force the algorithm to only consider interactions
+  between \code{interactionCandidates} and all other variables.}
   \item{screenLimit}{If not null (the default), limits the size of the interaction
     search space to \code{screenLimit} x nvars by only considering
     interactions with the best \code{screenLimit} candidate main effects

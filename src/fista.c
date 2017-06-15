@@ -610,7 +610,6 @@ SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, S
   double *restrict steps = REAL(R_steps);
   int *restrict family = INTEGER(R_family);
   gl_solver(x, z, y, nRows, intercept, beta, residual, linear, numLevels, nVars, catIndices, contIndices, catcatIndices, contcontIndices, catcontIndices, lambda, tol, alpha, maxIter, convergedFlag, objValue, steps, family);
-  UNPROTECT(25);
   SEXP result = PROTECT(allocVector(VECSXP, 4));
   SET_VECTOR_ELT(result, 0, R_interceptCopy);
   SET_VECTOR_ELT(result, 1, R_betaCopy);
@@ -621,6 +620,6 @@ SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, S
   int i;
   for (i=0; i<4; i++) SET_STRING_ELT(sNames, i, mkChar(names[i]));
   setAttrib(result, R_NamesSymbol, sNames);
-  UNPROTECT(2);
+  UNPROTECT(27);
   return result;
 }

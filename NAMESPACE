@@ -1,4 +1,4 @@
-useDynLib("glinternet")
+useDynLib("glinternet", .registration=TRUE)
 export(glinternet, glinternet.cv)
 importFrom(utils,head,tail,packageDescription)
 

@@ -36,7 +36,6 @@ SEXP R_retrieve_beta(SEXP R_beta, SEXP R_groupSizes, SEXP R_numGroups, SEXP R_id
   int *restrict idx = INTEGER(R_idx);
   int *restrict betaIdx = INTEGER(R_betaIdx);
   retrieve_beta(beta, groupSizes, numGroups, idx, betaIdx);
-  UNPROTECT(5);
   SEXP result = PROTECT(allocVector(VECSXP, 2));
   SET_VECTOR_ELT(result, 0, R_idx);
   SET_VECTOR_ELT(result, 1, R_betaIdx);
@@ -45,7 +44,7 @@ SEXP R_retrieve_beta(SEXP R_beta, SEXP R_groupSizes, SEXP R_numGroups, SEXP R_id
   int i;
   for (i=0; i<2; i++) SET_STRING_ELT(sNames, i, mkChar(names[i]));
   setAttrib(result, R_NamesSymbol, sNames);
-  UNPROTECT(2);
+  UNPROTECT(7);
   return result;
 }
 

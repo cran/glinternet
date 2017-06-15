@@ -1,5 +1,5 @@
-fb5de6cbfb99e4e6b2e28c9b400c5be0 *DESCRIPTION
-5a6aaa39e83a380a1307b1e8abad890b *NAMESPACE
+a414af1fee6975e655e016a95e1b8ff8 *DESCRIPTION
+3ddf9aa28dc6990dec7a43d0385246dd *NAMESPACE
 eef55f7954a9252a6ee5be95c2fa2a97 *R/c_routines.r
 7b4336bb46691be5f590362440199ccc *R/check_kkt.r
 ac4d68a191f2f6c0409cf6f381d91244 *R/coef.glinternet.cv.r
@@ -22,7 +22,6 @@ e825aabac765b5a47bbaa9a2dad84d10 *R/plot.glinternet.cv.r
 7284a1437e77060c453c78cb3fe65ff6 *R/rescale_betahat.r
 4471c4781f903d9126c9e2bf0fd7cdd8 *R/standardize.r
 131a8368e32212ada35dbb615074d1fd *R/strong_rules.r
-2e8b09bba6d1b80e6bd97846073020ee *README.md
 dc4e0f62b44f5bf1c741f313bb0375a6 *man/coef.glinternet.Rd
 5352f253106153690552b8f9f67384e3 *man/glinternet.Rd
 b5ed9f74dad40dacdf23c6d42b8f0400 *man/glinternet.cv.Rd
@@ -30,5 +29,6 @@ b5ed9f74dad40dacdf23c6d42b8f0400 *man/glinternet.cv.Rd
 153dd909493e2c2fe3ea12c8cc0f4b7f *man/predict.glinternet.Rd
 f75041758d423621e8a03d3e1ab8dc3b *man/predict.glinternet.cv.Rd
 49eb14b63705236b4e5cb45c908a97c2 *src/Makevars
-373bc7527c8c76fb08642dde6e30d6c1 *src/c_routines.c
-e514d23c6ac972dd6cd6e20d71e7895c *src/fista.c
+9a2c153b8896a814d579677b0de4e055 *src/c_routines.c
+659df836302d47fa32c0de12ee698773 *src/fista.c
+930d55c1cbe5f4c2a84f9045e4fcc8f3 *src/glinternet_init.c

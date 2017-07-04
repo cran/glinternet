@@ -1,4 +1,4 @@
-a414af1fee6975e655e016a95e1b8ff8 *DESCRIPTION
+f5734fe9647949085aa129f73a40201a *DESCRIPTION
 3ddf9aa28dc6990dec7a43d0385246dd *NAMESPACE
 eef55f7954a9252a6ee5be95c2fa2a97 *R/c_routines.r
 7b4336bb46691be5f590362440199ccc *R/check_kkt.r
@@ -9,7 +9,7 @@ ac4d68a191f2f6c0409cf6f381d91244 *R/coef.glinternet.cv.r
 e3334e759bef5cd12d594b689995473c *R/get_group_sizes.r
 8828c75014d37af896c7267c19e1b481 *R/get_lambda_grid.r
 25beb6eee757e87045aa0f4055b89154 *R/glinternet.cv.r
-0d9146d9ba2bbdb525855e554fb0fb7e *R/glinternet.r
+5dfc584db4c12e442fa4e5e48bb62504 *R/glinternet.r
 7a23637e323ca53b3800fe35e86dd288 *R/group_lasso.r
 5b95c348f0dba2cf693ea2c5d57447fa *R/initialize_betahat.r
 48315d9d8d635b679889cff968bb32c9 *R/mynorm.r

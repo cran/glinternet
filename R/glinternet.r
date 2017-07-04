@@ -10,6 +10,11 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
   pCont = length(numLevels) - pCat
   stopifnot(n==nrow(X), pCat+pCont==ncol(X), family=="gaussian"||family=="binomial")
   if (family=="binomial" && !all(Y %in% 0:1)) stop("Error:family=binomial but Y not in {0,1}")
+  for (i in 1:ncol(X)) {
+    if (numLevels[i]>1 && max(X[, i])>=numLevels[i]) {
+      stop(sprintf("Column %d of X is categorical, but not coded as {0, 1, ...}. Refer to glinternet help on what the X argument should be.", i))
+    }
+  }
 
                                         #separate into categorical and continuous parts
   if (pCont > 0) {

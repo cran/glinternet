@@ -15,22 +15,31 @@ check_kkt = function(X, Z, res, n, pCat, pCont, numLevels, candidates, activeSet
   if (!is.null(candidates$variables$catcont)) norms$catcont = compute_norms_cat_cont(X, Z, norms$cat, res, n, numLevels, candidates$variables$catcont, numCores)
 
   #check for nonzero variables
-  violators = lapply(1:5, function(x){
-    indices = which(norms[[x]] > lambda)
-    if (length(indices) > 0) matrix(candidates$variables[[x]][indices, ], nrow=length(indices))
-    else NULL})
+  violators = lapply(names(norms), function(x) {
+    if (!is.null(norms[[x]])) {
+      indices = which(norms[[x]] > lambda)
+      if (length(indices) > 0) {
+        return (matrix(candidates$variables[[x]][indices, ], nrow=length(indices)))
+      }
+    }
+    return (NULL)
+  })
+  names(violators) = names(norms)
 
   #check if any variables should be added to active set
   flag = 1
-  for (i in 1:5){
-    if (is.null(violators[[i]])) next
-    if (!is.null(activeSet[[i]])){
-      actives = apply(activeSet[[i]], 1, function(x) paste(x, collapse=":"))
-      extras = which(!(apply(violators[[i]], 1, function(x) paste(x, collapse=":")) %in% actives))
+  for (nm in names(norms)) {
+    if (is.null(violators[[nm]])) {
+      next
     }
-    else extras = 1:nrow(violators[[i]])
-    if (length(extras) > 0){
-      activeSet[[i]] = rbind(activeSet[[i]], violators[[i]][extras, ])
+    if (!is.null(activeSet[[nm]])) {
+      actives = apply(activeSet[[nm]], 1, function(x) paste(x, collapse=":"))
+      extras = which(!(apply(violators[[nm]], 1, function(x) paste(x, collapse=":")) %in% actives))
+    } else {
+      extras = 1:nrow(violators[[nm]])
+    }
+    if (length(extras) > 0) {
+      activeSet[[nm]] = rbind(activeSet[[nm]], violators[[nm]][extras, ])
       flag = 0
     }
   }

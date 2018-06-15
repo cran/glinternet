@@ -4,8 +4,9 @@
 #include <float.h>
 #include <R.h>
 #include <Rinternals.h>
+#include <R_ext/Print.h>
 
-static const double eps = 0.0;
+static const double eps = 1e-12;
 
 void x_times_beta(int *restrict x, double *restrict z, double *restrict beta, int *nRows, int *nVars, int *restrict numLevels, int *restrict catIndices, int *restrict contIndices, int *restrict catcatIndices, int *restrict contcontIndices, int *restrict catcontIndices, double *restrict result){
   int n = *nRows;
@@ -382,7 +383,9 @@ void optimize_step(int *restrict x, double *restrict z, const double *restrict y
       x_times_beta(x, z, betaUpdated, nRows, nVars, numLevels, catIndices, contIndices, catcatIndices, contcontIndices, catcontIndices, linear);
       loglikUpdated = compute_loglik(y, linear, intercept, nRows, family);
     }
-    if (loglikUpdated <= loglik + gradientTimesDelta + deltaTimesDelta/(2*step)) break;
+    if (loglikUpdated <= loglik + gradientTimesDelta + deltaTimesDelta/(2*step) + eps) {
+      break;
+    }
     step *= factor;
   }
   *stepsize = step;
@@ -491,7 +494,7 @@ double compute_stepsize(const double *restrict gradient, const double *restrict 
   return sqrt(normBeta/normGradient);
 }
 
-void gl_solver(int *restrict x, double *restrict z, double *restrict y, int *restrict nRows, double *restrict intercept, double *restrict beta, double *restrict residual, double *restrict linear, int *restrict numLevels, int *restrict nVars, int *restrict catIndices, int *restrict contIndices, int *restrict catcatIndices, int *restrict contcontIndices, int *restrict catcontIndices, double *restrict lambda, double *restrict tol, double *restrict alpha, int *restrict maxIter, int *restrict convergedFlag, double *restrict objValue, double *restrict steps, int *restrict family){
+void gl_solver(int *restrict x, double *restrict z, double *restrict y, int *restrict nRows, double *restrict intercept, double *restrict beta, double *restrict residual, double *restrict linear, int *restrict numLevels, int *restrict nVars, int *restrict catIndices, int *restrict contIndices, int *restrict catcatIndices, int *restrict contcontIndices, int *restrict catcontIndices, double *restrict lambda, double *restrict tol, double *restrict alpha, int *restrict maxIter, int *restrict convergedFlag, double *restrict objValue, double *restrict steps, int *restrict family, int *restrict verbose){
   /* initialize required variables */
   int i, gradientLength, iter, converged, n = *nRows;
   int numGroups = nVars[0] + nVars[1] + nVars[2] + nVars[3] + nVars[4];
@@ -547,6 +550,9 @@ void gl_solver(int *restrict x, double *restrict z, double *restrict y, int *res
     ++iter;
   }
   compute_objective(y, residual, linear, intercept, beta, nRows, &numGroups, groupSizes, lambda, objValue, family);
+  if (*verbose) {
+    Rprintf("Convergence in %d iters, obj=%.8f\n", iter, *objValue);
+  }
   free(groupSizes);
   free(gradient);
   free(intermediate);
@@ -555,7 +561,7 @@ void gl_solver(int *restrict x, double *restrict z, double *restrict y, int *res
   free(gradientOld);
 }
 
-SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, SEXP R_beta, SEXP R_numLevels, SEXP R_nVars, SEXP R_catIndices, SEXP R_contIndices, SEXP R_catcatIndices, SEXP R_contcontIndices, SEXP R_catcontIndices, SEXP R_lambda, SEXP R_tol, SEXP R_alpha, SEXP R_maxIter, SEXP R_family){
+SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, SEXP R_beta, SEXP R_numLevels, SEXP R_nVars, SEXP R_catIndices, SEXP R_contIndices, SEXP R_catcatIndices, SEXP R_contcontIndices, SEXP R_catcontIndices, SEXP R_lambda, SEXP R_tol, SEXP R_alpha, SEXP R_maxIter, SEXP R_family, SEXP R_verbose){
   PROTECT(R_x = coerceVector(R_x, INTSXP));
   PROTECT(R_z = coerceVector(R_z, REALSXP));
   PROTECT(R_y = coerceVector(R_y, REALSXP));
@@ -586,6 +592,7 @@ SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, S
   SEXP R_steps = PROTECT(allocVector(REALSXP, asInteger(R_maxIter)));
   memset(REAL(R_steps), 0, asInteger(R_maxIter)*sizeof(double));
   PROTECT(R_family = coerceVector(R_family, INTSXP));
+  PROTECT(R_verbose = coerceVector(R_verbose, INTSXP));
   int *restrict x = INTEGER(R_x);
   double *restrict z = REAL(R_z);
   double *restrict y = REAL(R_y);
@@ -609,7 +616,8 @@ SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, S
   double *restrict objValue = REAL(R_objValue);
   double *restrict steps = REAL(R_steps);
   int *restrict family = INTEGER(R_family);
-  gl_solver(x, z, y, nRows, intercept, beta, residual, linear, numLevels, nVars, catIndices, contIndices, catcatIndices, contcontIndices, catcontIndices, lambda, tol, alpha, maxIter, convergedFlag, objValue, steps, family);
+  int *restrict verbose = INTEGER(R_verbose);
+  gl_solver(x, z, y, nRows, intercept, beta, residual, linear, numLevels, nVars, catIndices, contIndices, catcatIndices, contcontIndices, catcontIndices, lambda, tol, alpha, maxIter, convergedFlag, objValue, steps, family, verbose);
   SEXP result = PROTECT(allocVector(VECSXP, 4));
   SET_VECTOR_ELT(result, 0, R_interceptCopy);
   SET_VECTOR_ELT(result, 1, R_betaCopy);
@@ -620,6 +628,6 @@ SEXP R_gl_solver(SEXP R_x, SEXP R_z, SEXP R_y, SEXP R_nRows, SEXP R_intercept, S
   int i;
   for (i=0; i<4; i++) SET_STRING_ELT(sNames, i, mkChar(names[i]));
   setAttrib(result, R_NamesSymbol, sNames);
-  UNPROTECT(27);
+  UNPROTECT(28);
   return result;
 }

@@ -1,4 +1,4 @@
-d4fc9e271329b7cd1a125ce11837894c *DESCRIPTION
+7952d4c4a77ddff8fafd5adfb073d70b *DESCRIPTION
 3ddf9aa28dc6990dec7a43d0385246dd *NAMESPACE
 eef55f7954a9252a6ee5be95c2fa2a97 *R/c_routines.r
 983a9a73b15314facb80e36d7a35f229 *R/check_kkt.r
@@ -9,8 +9,8 @@ ac4d68a191f2f6c0409cf6f381d91244 *R/coef.glinternet.cv.r
 e3334e759bef5cd12d594b689995473c *R/get_group_sizes.r
 8828c75014d37af896c7267c19e1b481 *R/get_lambda_grid.r
 bdc1cdfbd62ecf018571c8bf9974298e *R/glinternet.cv.r
-eee0956f0d6f100ef70260ec2451f4e2 *R/glinternet.r
-7a23637e323ca53b3800fe35e86dd288 *R/group_lasso.r
+1d743bae4c68e3bbca4845353bb18616 *R/glinternet.r
+a158823a345b641a58a50cbcc239045c *R/group_lasso.r
 5b95c348f0dba2cf693ea2c5d57447fa *R/initialize_betahat.r
 48315d9d8d635b679889cff968bb32c9 *R/mynorm.r
 b3b5716b41401332f9d62b51ed4dab95 *R/onAttach.R
@@ -30,5 +30,5 @@ b5ed9f74dad40dacdf23c6d42b8f0400 *man/glinternet.cv.Rd
 f75041758d423621e8a03d3e1ab8dc3b *man/predict.glinternet.cv.Rd
 49eb14b63705236b4e5cb45c908a97c2 *src/Makevars
 9a2c153b8896a814d579677b0de4e055 *src/c_routines.c
-659df836302d47fa32c0de12ee698773 *src/fista.c
-930d55c1cbe5f4c2a84f9045e4fcc8f3 *src/glinternet_init.c
+d3c2d71894b6e64837474a3197463002 *src/fista.c
+e3b9176b27df1d4b874434a340336e16 *src/glinternet_init.c

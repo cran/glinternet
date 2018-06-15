@@ -1,4 +1,4 @@
-group_lasso = function(X, Z, Y, activeSet, betahat, numLevels, lambda, family, tol, maxIter){
+group_lasso = function(X, Z, Y, activeSet, betahat, numLevels, lambda, family, tol, maxIter, verbose){
 
   #get size of each group, number of groups in each category, and total number of groups
   groupSizes = get_group_sizes(activeSet, numLevels)
@@ -17,7 +17,7 @@ group_lasso = function(X, Z, Y, activeSet, betahat, numLevels, lambda, family, t
   indices = lapply(activeSet, function(x) if (!is.null(x)) c(t(x)) else NULL)
 
   #fit and get new betahat, res, objValue
-  fit = .Call("R_gl_solver", X, Z, Y, n, betahat[1], betahat[-1], numLevels, numGroups, indices$cat, indices$cont, indices$catcat, indices$contcont, indices$catcont, lambda, tol, 0.1, maxIter, ifelse(family=="gaussian", 0, 1))
+  fit = .Call("R_gl_solver", X, Z, Y, n, betahat[1], betahat[-1], numLevels, numGroups, indices$cat, indices$cont, indices$catcat, indices$contcont, indices$catcont, lambda, tol, 0.1, maxIter, ifelse(family=="gaussian", 0, 1), ifelse(verbose, 1, 0))
   res = fit$res
   objValue = fit$objValue
 

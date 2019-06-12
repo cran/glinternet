@@ -5,7 +5,7 @@
   value of \code{lambda}.}
 \usage{
 glinternet.cv(X, Y, numLevels, nFolds = 10, lambda=NULL, nLambda=50,
-lambdaMinRatio=0.01, interactionCandidates=NULL,
+lambdaMinRatio=0.01, interactionCandidates=NULL, interactionPairs=NULL,
 screenLimit=NULL, family=c("gaussian", "binomial"), tol=1e-5, maxIter=5000,
 verbose=FALSE, numCores=1)
 }
@@ -18,7 +18,9 @@ verbose=FALSE, numCores=1)
   \item{lambda}{\code{lambda} as in \code{glinternet}.}
   \item{nLambda}{\code{nLambda} as in \code{glinternet}.}
   \item{lambdaMinRatio}{\code{lambdaMinRatio} as in \code{glinternet}.}
-  \item{interactionCandidates}{\code{interactionCandidates} as in \code{glinternet}.}
+  \item{interactionCandidates}{\code{interactionCandidates} as in
+    \code{glinternet}.}
+  \item{interactionPairs}{\code{interactionPairs} as in \code{glinternet}.}
   \item{screenLimit}{\code{screenLimit} as in \code{glinternet}.}
   \item{family}{\code{family} as in \code{glinternet}.}
   \item{tol}{\code{tol} as in \code{glinternet}.}

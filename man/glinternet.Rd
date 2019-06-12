@@ -14,7 +14,7 @@
   a higher level of optimization, such as -O3 in gcc.}
 \usage{
 glinternet(X, Y, numLevels, lambda = NULL, nLambda = 50, lambdaMinRatio = 0.01,
- interactionCandidates=NULL, screenLimit = NULL, numToFind = NULL,
+ interactionCandidates=NULL, interactionPairs=NULL, screenLimit = NULL, numToFind = NULL,
 family = c("gaussian","binomial"), tol = 1e-05, maxIter=5000, verbose=FALSE,
 numCores = 1)
 }
@@ -38,7 +38,12 @@ numCores = 1)
     \code{0.01}.}
   \item{interactionCandidates}{An optional vector of variable
     indices. This will force the algorithm to only consider interactions
-  between \code{interactionCandidates} and all other variables.}
+    between \code{interactionCandidates} and all other variables.}
+  \item{interactionPairs}{An optional nx2 matrix of variable
+    indices. This will force the algorithm to only consider the interaction
+    pairs defined by this matrix. For example, matrix(c(1,2,1,5),
+    ncol=2, byrow=TRUE) restricts the model to two interaction pairs:
+    one between variables 1 and 2, and another between 1 and 5.}
   \item{screenLimit}{If not null (the default), limits the size of the interaction
     search space to \code{screenLimit} x nvars by only considering
     interactions with the best \code{screenLimit} candidate main effects

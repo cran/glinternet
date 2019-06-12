@@ -1,5 +1,5 @@
-glinternet.cv = function(X, Y, numLevels, nFolds=10, lambda=NULL, nLambda=50, lambdaMinRatio=0.01, interactionCandidates=NULL, screenLimit=NULL, family=c("gaussian", "binomial"), tol=1e-5, maxIter=5000, verbose=FALSE, numCores=1){
-  
+glinternet.cv = function(X, Y, numLevels, nFolds=10, lambda=NULL, nLambda=50, lambdaMinRatio=0.01, interactionCandidates=NULL, interactionPairs=NULL, screenLimit=NULL, family=c("gaussian", "binomial"), tol=1e-5, maxIter=5000, verbose=FALSE, numCores=1) {
+
   # get call and family
   thisCall = match.call()
   family = match.arg(family)
@@ -10,7 +10,7 @@ glinternet.cv = function(X, Y, numLevels, nFolds=10, lambda=NULL, nLambda=50, la
   pCont = length(numLevels) - pCat
   stopifnot(n==nrow(X), pCat+pCont==ncol(X), family=="gaussian"||family=="binomial")
 
-  fullfitted = glinternet(X, Y, numLevels, lambda, nLambda, lambdaMinRatio, interactionCandidates,screenLimit, family=family, tol=tol, maxIter=maxIter, verbose=verbose, numCores=numCores)
+  fullfitted = glinternet(X, Y, numLevels, lambda, nLambda, lambdaMinRatio, interactionCandidates, interactionPairs, screenLimit, family=family, tol=tol, maxIter=maxIter, verbose=verbose, numCores=numCores)
   if(verbose) {
     cat("\n Done fit on all data\n")
   }
@@ -35,7 +35,7 @@ glinternet.cv = function(X, Y, numLevels, nFolds=10, lambda=NULL, nLambda=50, la
   for (fold in 1:nFolds) {
     testIndex= (folds == fold)
     trainIndex = !testIndex
-    fitted = glinternet(X[trainIndex,,drop=FALSE], Y[trainIndex], numLevels, lambda, nlambda, lambdaMinRatio, interactionCandidates,screenLimit, numToFind=NULL, family, tol, maxIter, verbose, numCores)
+    fitted = glinternet(X[trainIndex,,drop=FALSE], Y[trainIndex], numLevels, lambda, nlambda, lambdaMinRatio, interactionCandidates, interactionPairs, screenLimit, numToFind=NULL, family, tol, maxIter, verbose, numCores)
     YtestHat = predict(fitted, X[testIndex,,drop=FALSE], "response")
     loss[fold, ] = apply(YtestHat, 2, function(yhat) compute_loss(Y[testIndex], yhat, family))
     if(verbose) {

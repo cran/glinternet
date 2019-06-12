@@ -1,4 +1,4 @@
-glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0.01, interactionCandidates=NULL, screenLimit=NULL, numToFind=NULL, family=c("gaussian", "binomial"), tol=1e-5, maxIter=5000, verbose=FALSE, numCores=1){
+glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0.01, interactionCandidates=NULL, interactionPairs=NULL, screenLimit=NULL, numToFind=NULL, family=c("gaussian", "binomial"), tol=1e-5, maxIter=5000, verbose=FALSE, numCores=1) {
 
   # get call and family
   thisCall = match.call()
@@ -18,9 +18,39 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
     }
   }
 
+  contIndices = which(numLevels == 1)
+  catIndices = which(numLevels > 1)
+
+  # specific interaction pairs
+  if (!is.null(interactionPairs)) {
+    # sanity check
+    if (!is.matrix(interactionPairs)) {
+      stop("interactionPairs must be either NULL or a n x 2 matrix of indices")
+    }
+    if (!is.null(interactionCandidates)) {
+      stop("If interactionPairs is set, interactionCandidates must be NULL.")
+    }
+    pairs = list(contcont=NULL, catcat=NULL, catcont=NULL)
+    for (i in 1:nrow(interactionPairs)) {
+      left = interactionPairs[i, 1]
+      right = interactionPairs[i, 2]
+      if (numLevels[left] == 1 && numLevels[right] == 1) {
+        pairs$contcont = c(pairs$contcont, which(contIndices %in% c(left, right)))
+      } else if (numLevels[left] == 1) {
+        pairs$catcont = c(pairs$catcont, which(catIndices == right), which(contIndices == left))
+      } else if (numLevels[right] == 1) {
+        pairs$catcont = c(pairs$catcont, which(catIndices == left), which(contIndices == right))
+      } else {
+        pairs$catcat = c(pairs$catcat, which(catIndices %in% c(left, right)))
+      }
+    }
+    # convert to matrices
+    pairs = lapply(pairs, function(x) matrix(x, ncol=2, byrow=TRUE))
+    interactionPairs = pairs
+  }
+
   # separate into categorical and continuous parts
   if (pCont > 0) {
-    contIndices = which(numLevels == 1)
     continuousCandidates = NULL
     Z = as.matrix(apply(as.matrix(X[, contIndices]), 2, standardize))
     if (!is.null(interactionCandidates)) {
@@ -31,7 +61,6 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
     continuousCandidates = NULL
   }
   if (pCat > 0){
-    catIndices = which(numLevels > 1)
     categoricalCandidates = NULL
     levels = numLevels[catIndices]
     Xcat = as.matrix(X[, catIndices])
@@ -46,7 +75,7 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
 
   # compute variable norms
   res = Y - mean(Y)
-  candidates = get_candidates(Xcat, Z, res, n, pCat, pCont, levels, categoricalCandidates, continuousCandidates, screenLimit, numCores=numCores)
+  candidates = get_candidates(Xcat, Z, res, n, pCat, pCont, levels, interactionPairs, categoricalCandidates, continuousCandidates, screenLimit, numCores=numCores)
 
   # lambda grid if not user provided
   if (is.null(lambda)) {
@@ -97,7 +126,7 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
     }
     # update the candidate set if necessary
     if (!is.null(screenLimit) && (screenLimit<pCat+pCont) && i<nLambda) {
-      candidates = get_candidates(Xcat, Z, res, n, pCat, pCont, levels, categoricalCandidates, continuousCandidates, screenLimit, activeSet[[i]], candidates$norms, numCores)
+      candidates = get_candidates(Xcat, Z, res, n, pCat, pCont, levels, interactionPairs, categoricalCandidates, continuousCandidates, screenLimit, activeSet[[i]], candidates$norms, numCores)
     }
     # get fitted values
     fitted[, i] = Y - res

@@ -45,7 +45,13 @@ glinternet = function(X, Y, numLevels, lambda=NULL, nLambda=50, lambdaMinRatio=0
       }
     }
     # convert to matrices
-    pairs = lapply(pairs, function(x) matrix(x, ncol=2, byrow=TRUE))
+    pairs = lapply(pairs, function(x) {
+      if (!is.null(x)) {
+        return(matrix(x, ncol=2, byrow=TRUE))
+      } else {
+        return(NULL)
+      }
+    })
     interactionPairs = pairs
   }
 

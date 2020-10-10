@@ -8,9 +8,13 @@ group_lasso = function(X, Z, Y, activeSet, betahat, numLevels, lambda, family, t
   #if active set is empty, just return estimate of the intercept
   if (totalGroups == 0){
     res = Y - mean(Y)
-    if (family == "gaussian") betahat = mean(Y)
-    else betahat = -log(1/mean(Y)-1)
-    return(list(betahat=betahat, activeSet=activeSet, res=res))
+    betahat = ifelse(family=="gaussian",
+                     mean(Y),
+                     -log(1/mean(Y)-1))
+    objValue = ifelse(family=="gaussian",
+                      sum(res^2)/(2*length(Y)),
+                      -mean(Y)*betahat[[1]]+log(1/(1-mean(Y))))
+    return(list(betahat=betahat, activeSet=activeSet, res=res, objValue=objValue))
   }
 
   n = length(Y)

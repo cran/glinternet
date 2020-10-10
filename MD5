@@ -1,4 +1,4 @@
-9562b7bc58ea8d3ed975ac967fc5eb6a *DESCRIPTION
+51c19832347a6d2ef4aea5d24daef661 *DESCRIPTION
 3ddf9aa28dc6990dec7a43d0385246dd *NAMESPACE
 eef55f7954a9252a6ee5be95c2fa2a97 *R/c_routines.r
 983a9a73b15314facb80e36d7a35f229 *R/check_kkt.r
@@ -10,7 +10,7 @@ e3334e759bef5cd12d594b689995473c *R/get_group_sizes.r
 8828c75014d37af896c7267c19e1b481 *R/get_lambda_grid.r
 abc263259e5224996bad1898d22f6301 *R/glinternet.cv.r
 e69da4ae89dc82f3ac1edd787da089c2 *R/glinternet.r
-a158823a345b641a58a50cbcc239045c *R/group_lasso.r
+624bd38b7678783450dc6714163d4dae *R/group_lasso.r
 5b95c348f0dba2cf693ea2c5d57447fa *R/initialize_betahat.r
 48315d9d8d635b679889cff968bb32c9 *R/mynorm.r
 b3b5716b41401332f9d62b51ed4dab95 *R/onAttach.R
@@ -23,7 +23,7 @@ e825aabac765b5a47bbaa9a2dad84d10 *R/plot.glinternet.cv.r
 4471c4781f903d9126c9e2bf0fd7cdd8 *R/standardize.r
 131a8368e32212ada35dbb615074d1fd *R/strong_rules.r
 dc4e0f62b44f5bf1c741f313bb0375a6 *man/coef.glinternet.Rd
-52788d6e5daaf0c7ae9980af765c7c1d *man/glinternet.Rd
+110df46a7e0a5531084bf94433c7d9c4 *man/glinternet.Rd
 54908070d179d07593f7c682b5718021 *man/glinternet.cv.Rd
 0e6dad384edfbb456a2b25162a7f363b *man/plot.glinternet.cv.Rd
 153dd909493e2c2fe3ea12c8cc0f4b7f *man/predict.glinternet.Rd

@@ -89,7 +89,7 @@ numCores = 1)
 \references{
 Michael Lim and Trevor Hastie (2013)\emph{Learning interactions via hierarchical group-lasso
   regularization},
-\url{http://arxiv.org/abs/1308.2719}
+\url{https://arxiv.org/abs/1308.2719}
 }
 \author{Michael Lim and Trevor Hastie\cr Maintainer: Michael Lim \email{michael626@gmail.com}}
 

@@ -1,11 +1,12 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
-#include <R.h>
-#include <Rinternals.h>
 #ifdef _OPENMP
 # include <omp.h>
 #endif
+
+#include <R.h>
+#include <Rinternals.h>
 
 static const double eps = 0.0;
 

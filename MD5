@@ -1,4 +1,4 @@
-51c19832347a6d2ef4aea5d24daef661 *DESCRIPTION
+4b9a78e28aee21f672be9121382e1991 *DESCRIPTION
 3ddf9aa28dc6990dec7a43d0385246dd *NAMESPACE
 eef55f7954a9252a6ee5be95c2fa2a97 *R/c_routines.r
 983a9a73b15314facb80e36d7a35f229 *R/check_kkt.r
@@ -29,6 +29,6 @@ dc4e0f62b44f5bf1c741f313bb0375a6 *man/coef.glinternet.Rd
 153dd909493e2c2fe3ea12c8cc0f4b7f *man/predict.glinternet.Rd
 f75041758d423621e8a03d3e1ab8dc3b *man/predict.glinternet.cv.Rd
 49eb14b63705236b4e5cb45c908a97c2 *src/Makevars
-9a2c153b8896a814d579677b0de4e055 *src/c_routines.c
+875a618ad97967966b9df350f6468d54 *src/c_routines.c
 d3c2d71894b6e64837474a3197463002 *src/fista.c
 e3b9176b27df1d4b874434a340336e16 *src/glinternet_init.c
